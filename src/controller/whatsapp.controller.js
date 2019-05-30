@@ -205,10 +205,14 @@ export class WhatsAppController {
         this.el.btnClosePanelCamera.on('click', e => {
             this.closeAllMainPanels();
             this.el.panelMessagesContainer.show();
+            
+            this._camera.stop();
         });
 
         this.el.btnTakePicture.on('click', e => {
             console.log('take picture! Say Cheese!');
+
+            
         });
 
         this.el.btnSendMicrophone.on('click', e => {
