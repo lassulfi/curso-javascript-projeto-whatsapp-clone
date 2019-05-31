@@ -293,6 +293,9 @@ export class WhatsAppController {
             this.startRecordMicrophoneTime();
 
             this._microphoneController = new MicrophoneController();
+            this._microphoneController.on('play', sound => {
+                console.log('I received the event play', sound);
+            });
         });
 
         this.el.btnCancelMicrophone.on('click', e => {
