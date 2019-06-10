@@ -45,6 +45,14 @@ export class User extends Model {
         return User.findByEmail(this.email).set(this.toJSON());
     }
 
+    addContact(contact) {
+        return User.getDatabaseReference()
+            .doc(this.email)
+            .collection('contacts')
+            .doc(btoa(contact.email))
+            .set(contact.toJSON());        
+    }
+
     static getDatabaseReference() {
         return Firebase.db().collection('/users');
     }
