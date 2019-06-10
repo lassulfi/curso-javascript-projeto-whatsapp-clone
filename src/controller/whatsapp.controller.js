@@ -73,46 +73,57 @@ export class WhatsAppController {
                                 </span>
                             </div>
                         </div>
-                    </div>
-                    <div class="_3j7s9">
-                        <div class="_2FBdJ">
-                            <div class="_25Ooe">
-                                <span dir="auto" title="${contact.name}" class="_1wjpf">${contact.name}</span>
-                            </div>
-                            <div class="_3Bxar">
-                                <span class="_3T2VG">${contact.lastMessageTime}</span>
-                            </div>
                         </div>
-                        <div class="_1AwDx">
-                            <div class="_itDl">
-                                <span title="digitando…" class="vdXUe _1wjpf typing" style="display:none">digitando…</span>
+                        <div class="_3j7s9">
+                            <div class="_2FBdJ">
+                                <div class="_25Ooe">
+                                    <span dir="auto" title="${contact.name}" class="_1wjpf">${contact.name}</span>
+                                </div>
+                                <div class="_3Bxar">
+                                    <span class="_3T2VG">${contact.lastMessageTime}</span>
+                                </div>
+                            </div>
+                            <div class="_1AwDx">
+                                <div class="_itDl">
+                                    <span title="digitando…" class="vdXUe _1wjpf typing" style="display:none">digitando…</span>
 
-                                <span class="_2_LEW last-message">
-                                    <div class="_1VfKB">
-                                        <span data-icon="status-dblcheck" class="">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" width="18" height="18">
-                                                <path fill="#263238" fill-opacity=".4" d="M17.394 5.035l-.57-.444a.434.434 0 0 0-.609.076l-6.39 8.198a.38.38 0 0 1-.577.039l-.427-.388a.381.381 0 0 0-.578.038l-.451.576a.497.497 0 0 0 .043.645l1.575 1.51a.38.38 0 0 0 .577-.039l7.483-9.602a.436.436 0 0 0-.076-.609zm-4.892 0l-.57-.444a.434.434 0 0 0-.609.076l-6.39 8.198a.38.38 0 0 1-.577.039l-2.614-2.556a.435.435 0 0 0-.614.007l-.505.516a.435.435 0 0 0 .007.614l3.887 3.8a.38.38 0 0 0 .577-.039l7.483-9.602a.435.435 0 0 0-.075-.609z"></path>
-                                            </svg>
+                                    <span class="_2_LEW last-message">
+                                        <div class="_1VfKB">
+                                            <span data-icon="status-dblcheck" class="">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" width="18" height="18">
+                                                    <path fill="#263238" fill-opacity=".4" d="M17.394 5.035l-.57-.444a.434.434 0 0 0-.609.076l-6.39 8.198a.38.38 0 0 1-.577.039l-.427-.388a.381.381 0 0 0-.578.038l-.451.576a.497.497 0 0 0 .043.645l1.575 1.51a.38.38 0 0 0 .577-.039l7.483-9.602a.436.436 0 0 0-.076-.609zm-4.892 0l-.57-.444a.434.434 0 0 0-.609.076l-6.39 8.198a.38.38 0 0 1-.577.039l-2.614-2.556a.435.435 0 0 0-.614.007l-.505.516a.435.435 0 0 0 .007.614l3.887 3.8a.38.38 0 0 0 .577-.039l7.483-9.602a.435.435 0 0 0-.075-.609z"></path>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <span dir="ltr" class="_1wjpf _3NFp9">${contact.lastMessage}</span>
+                                        <div class="_3Bxar">
+                                            <span>
+                                                <div class="_15G96">
+                                                    <span class="OUeyt messages-count-new" style="display:none;">1</span>
+                                                </div>
+                                        </span></div>
                                         </span>
-                                    </div>
-                                    <span dir="ltr" class="_1wjpf _3NFp9">${contact.lastMessage}</span>
-                                    <div class="_3Bxar">
-                                        <span>
-                                            <div class="_15G96">
-                                                <span class="OUeyt messages-count-new" style="display:none;">1</span>
-                                            </div>
-                                    </span></div>
-                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>`
-                ;
+                    `;
                 if(contact.photo){
                     let img = div.querySelector('.photo');
                     img.src = contact.photo;
                     img.show();
                 }
                 
+                div.on('click', e  => {
+                    this.el.activeName.innerHTML = contact.name;
+                    this.el.activeStatus.innerHTML = contact.status;
+                    if(contact.photo){
+                        let img = this.el.activePhoto;
+                        img.src = contact.photo;
+                        img.show();
+                    }
+                    this.el.home.hide();
+                    this.el.main.css({display: 'flex'})
+                });
 
                 this.el.contactsMessagesList.appendChild(div);
             });
