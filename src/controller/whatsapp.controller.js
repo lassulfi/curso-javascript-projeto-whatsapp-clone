@@ -127,6 +127,11 @@ export class WhatsAppController {
     }
 
     setActiveChat(contact) {
+
+        if(this._activeContact) {
+            Message.getDatabaseReference(this._activeContact).onSnapshot(() => {});
+        }
+
         this._activeContact = contact;
 
         this.el.activeName.innerHTML = contact.name;
@@ -137,7 +142,26 @@ export class WhatsAppController {
             img.show();
         }
         this.el.home.hide();
-        this.el.main.css({display: 'flex'})
+        this.el.main.css({display: 'flex'});
+
+        Message.getDatabaseReference(this._activeContact.chatId).orderBy('timestamp').onSnapshot(docs => {
+            this.el.panelMessagesContainer.innerHTML = '';
+            docs.forEach(doc => {
+                let data = doc.data();
+                data.id = doc.id;
+                
+                if(!this.el.panelMessagesContainer.querySelector(`#_${data.id}`)){
+                    let message = new Message();
+                    message.fromJSON(data);
+
+                    let sender = (data.from === this._user.email);
+
+                    let view = message.getViewElement(sender);
+                    
+                    this.el.panelMessagesContainer.appendChild(view);
+                };
+            });
+        });
     }
 
     elementsPrototype(){
