@@ -156,15 +156,27 @@ export class WhatsAppController {
                 let data = doc.data();
                 data.id = doc.id;
                 
-                if(!this.el.panelMessagesContainer.querySelector(`#_${data.id}`)){
-                    let message = new Message();
-                    message.fromJSON(data);
+                let msgEl = this.el.panelMessagesContainer.querySelector(`#_${data.id}`);
 
-                    let sender = (data.from === this._user.email);
+                let message = new Message();
+                message.fromJSON(data);
+
+                let sender = (data.from === this._user.email);
+
+                if(!msgEl){
+                    if(!sender) {
+                        doc.ref.set({
+                            status:'read'
+                        }, {
+                            merge: true
+                        });
+                    }
 
                     let view = message.getViewElement(sender);
                     
                     this.el.panelMessagesContainer.appendChild(view);
+                } else if(sender) {
+                    msgEl.querySelector('.message-status').innerHTML = message.getStatusViewElement().outerHTML;
                 };
             });
 
