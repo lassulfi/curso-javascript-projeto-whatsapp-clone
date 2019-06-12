@@ -278,6 +278,7 @@ export class Message extends Model {
     static sendImage(chatId, from, file) {
         return new Promise((resolve, reject) => {
             let uploadTask = Firebase.hd().ref(from).child(Date.now() + '_' + file.name).put(file);
+            console.log(uploadTask);
             uploadTask.on('state_changed', e => {
                 console.info('upload', e);
             }, err => {
