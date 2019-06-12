@@ -373,9 +373,8 @@ export class WhatsAppController {
         });
 
         this.el.inputPhoto.on('change', e => {
-            console.log(this.el.inputPhoto.files);
             [...this.el.inputPhoto.files].forEach(file => {
-                console.log(file);
+                Message.sendImage(this._activeContact.chatId, this._user.email, file);
             });
         })
 
