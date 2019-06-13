@@ -42,6 +42,7 @@ export class Message extends Model {
 
     getViewElement(currentUser = true) {
         let div = document.createElement('div');
+        div.id = `_${this.id}`;
         div.className = 'message';
 
         switch(this.type) {
@@ -68,7 +69,7 @@ export class Message extends Model {
                                     </div>
                                 </div>
                                 <div class="_1lC8v">
-                                    <div dir="ltr" class="_3gkvk selectable-text invisible-space copyable-text">Nome do Contato Anexado</div>
+                                    <div dir="ltr" class="_3gkvk selectable-text invisible-space copyable-text">${this.content.name}</div>
                                 </div>
                                 <div class="_3a5-b">
                                     <div class="_1DZAH" role="button">
@@ -83,6 +84,16 @@ export class Message extends Model {
 
                     </div>'
                 `;
+
+                if(this.content.photo){
+                    let img = div.querySelector('.photo-contact-sended');
+                    img.src = this.content.photo;
+                    img.show();
+                }
+
+                div.querySelector('.btn-message-send').on('click', e => {
+                    console.log('send message to the new contact')
+                });
                 break;
             case 'image':
                 div.innerHTML = `
@@ -130,7 +141,7 @@ export class Message extends Model {
 
                 div.querySelector('.message-photo').on('load', e => {
                     div.querySelector('.message-photo').show();
-                    div.querySelector('._340lu').hide();
+                    div.querySelector('._2BzIU').hide();
                     div.querySelector('._3v3PK').css({
                         height: 'auto'
                     });
@@ -263,7 +274,7 @@ export class Message extends Model {
                 break;
             default:
                 div.innerHTML = `
-                    <div class="font-style _3DFk6 tail" id="_${this.id}">
+                    <div class="font-style _3DFk6 tail">
                         <span class="tail-container"></span>
                         <span class="tail-container highlight"></span>
                         <div class="Tkt2p">
@@ -307,6 +318,10 @@ export class Message extends Model {
                 resolve(uploadTask.snapshot);
             });
         });
+    }
+
+    static sendContact(chatId, from, contact) {
+        return Message.send(chatId, from, 'contact', contact);
     }
 
     static sendDocument(chatId, from, file, filePreview, info) {
